@@ -1,20 +1,19 @@
-// ================== Imports ==================
-const express = require("express");
+// Load env vars FIRST
 const dotenv = require("dotenv");
+dotenv.config();
+
+const express = require("express");
 const cors = require("cors");
+
 const connectDB = require("./Config/Database");
 const authRoutes = require("./routes/auth");
 const generateRoutes = require("./routes/generate");
 
-// ================== Config ==================
-dotenv.config();
+const app = express();
 
-// ================== App Init ==================
-const app = express(); // ✅ THIS WAS MISSING
-
+// ---------------- Middleware ----------------
 app.use(express.json());
 
-// ================== CORS ==================
 app.use(
   cors({
     origin: process.env.CLIENT_ORIGIN,
@@ -22,7 +21,7 @@ app.use(
   })
 );
 
-// ================== Lazy DB Connection ==================
+// ---------------- DB (SERVERLESS SAFE) ----------------
 let dbConnected = false;
 
 app.use(async (req, res, next) => {
@@ -39,32 +38,21 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// ================== Routes ==================
+// ---------------- Routes ----------------
 app.use("/api/auth", authRoutes);
 app.use("/api/generate", generateRoutes);
 
-// ================== 404 ==================
+// ---------------- 404 ----------------
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-// ================== Error Handler ==================
+// ---------------- Error Handler ----------------
 app.use((err, req, res, next) => {
-  console.error("Global error:", err);
+  console.error(err);
   res.status(err.status || 500).json({
     message: err.message || "Internal server error",
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 });
 
-// ================== Local Server Only ==================
-if (require.main === module) {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`✓ Server running on port ${PORT}`);
-    console.log(`✓ Environment: ${process.env.NODE_ENV || "development"}`);
-  });
-}
-
-// ================== Export for Vercel ==================
 module.exports = app;
