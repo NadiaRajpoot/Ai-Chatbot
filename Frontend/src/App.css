@@ -1,0 +1,66 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Home hero custom styles */
+.hero-logo {
+  width: 88px;
+  height: 88px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(109,40,217,0.08));
+}
+.hero-logo svg { border-radius: 10px; }
+
+.subscribe-btn { transition: transform 160ms ease, box-shadow 160ms ease; }
+.subscribe-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+
+/* Prompt bar styles */
+.prompt-bar > div {
+  background: #FBF7FF;
+  border: 1px solid rgba(139,92,246,0.12);
+}
+.prompt-bar input::placeholder { color: #C7C3D6; }
+.prompt-bar input { font-size: 16px; }
+
+.hero-logo { background: linear-gradient(135deg,#8B5CF6 0%, #6D28D9 100%); padding: 12px; }
