@@ -1,59 +1,43 @@
-// Import required modules
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require("./Config/Database");
 const authRoutes = require("./routes/auth");
-
-// Load environment variables
-dotenv.config();
-
-// Require routes that depend on environment variables after loading .env
 const generateRoutes = require("./routes/generate");
 
-// Initialize Express app
+dotenv.config();
+
 const app = express();
 
 app.use(express.json());
 
-// CORS: allow frontend origin and credentials (cookies)
-const allowedOrigin = process.env.CLIENT_ORIGIN ;
+// CORS
 app.use(cors({
-    origin: allowedOrigin,
+    origin: process.env.CLIENT_ORIGIN,
     credentials: true,
 }));
 
-
-
-
-// API Routes
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/generate", generateRoutes);
 
-// 404 handler for undefined routes
+// 404 handler
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
 
-// Global error handler
+// Error handler
 app.use((err, req, res, next) => {
-    console.error('Global error handler:', err);
+    console.error(err);
     res.status(err.status || 500).json({ 
         message: err.message || 'Internal server error',
         ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
     });
 });
 
-// Connect to database and start server
-connectDB()
-    .then(() => {
-        const PORT = process.env.PORT || 5000;
-        app.listen(PORT, () => {
-            console.log(`✓ Server is running on port ${PORT}`);
-            console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
-        });
-    })
-    .catch((error) => {
-        console.error("✗ Failed to start server:", error);
-        process.exit(1);
-    });
+// Connect to DB before exporting (for serverless)
+connectDB().catch(err => {
+    console.error("DB connection failed:", err);
+});
+
+module.exports = app;
