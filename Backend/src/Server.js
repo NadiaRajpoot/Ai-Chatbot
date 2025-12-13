@@ -39,8 +39,8 @@ app.use(async (req, res, next) => {
 });
 
 // ---------------- Routes ----------------
-app.use("/auth", authRoutes);
-app.use("/generate", generateRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/generate", generateRoutes);
 
 // ---------------- 404 ----------------
 app.use((req, res) => {
