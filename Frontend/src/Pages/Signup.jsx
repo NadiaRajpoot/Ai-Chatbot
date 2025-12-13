@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Prefer env base URL, otherwise fall back to localhost
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const REMEMBER_KEY = "auth_remember";
+// Removed remember-me functionality
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -17,34 +17,15 @@ export default function Signup() {
     lastName: "",
     email: "",
     password: "",
-    remember: false,
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Load remembered credentials on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(REMEMBER_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        setFormData((prev) => ({
-          ...prev,
-          firstName: parsed.firstName || "",
-          lastName: parsed.lastName || "",
-          email: parsed.email || "",
-          password: parsed.password || "",
-          remember: true,
-        }));
-      }
-    } catch (_) {
-      // ignore corrupted storage
-    }
-  }, []);
+  // Remember-me removed; no preloading from localStorage
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -70,21 +51,14 @@ export default function Signup() {
       );
       const data = res.data || {};
       toast.success(data.message || (isSignup ? "Account created successfully." : "Signed in successfully."));
-      // Remember credentials only if user asked
-      if (formData.remember) {
-        localStorage.setItem(
-          REMEMBER_KEY,
-          JSON.stringify({
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            password: formData.password,
-          })
-        );
-      } else {
-        localStorage.removeItem(REMEMBER_KEY);
+      // Store auth info for client-side route protection
+      if (data.token) {
+        localStorage.setItem("authToken", data.token);
       }
-      setFormData({ firstName: "", lastName: "", email: "", password: "", remember: false });
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+      setFormData({ firstName: "", lastName: "", email: "", password: "" });
       navigate("/home", { replace: true });
     } catch (err) {
       const data = err?.response?.data;
@@ -157,16 +131,7 @@ export default function Signup() {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="remember"
-              checked={formData.remember}
-              onChange={handleChange}
-              className="h-4 w-4 accent-purple-600"
-            />
-            <span className="text-sm text-gray-600">Remember me</span>
-          </div>
+          {/* Remember-me checkbox removed */}
 
           <button
             type="submit"

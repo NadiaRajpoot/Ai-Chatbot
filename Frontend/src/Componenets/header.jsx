@@ -2,25 +2,27 @@
 import React from 'react'
 import logoFull from "../assets/logo_full_dark.svg";
 
-const API_BASE = import.meta.env.VITE_API_URL ;
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  const handleLogout = () => {
-    fetch(`${API_BASE}/api/auth/logout`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    }).finally(() => {
+const handleLogout = () => {
+  fetch(`${API_BASE}/api/auth/logout`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  }).finally(() => {
+    try {
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
       sessionStorage.removeItem("authToken");
       sessionStorage.removeItem("user");
-      setMessages([]);
-      setPrompt("");
-      window.location.href = "/login";
-    });
-  };
+    } catch (_) {
+      // ignore storage errors
+    }
+    window.location.href = "/login";
+  });
+};
 
-const header = () => {
+const Header = () => {
   return (
     <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-50">
         <img src={logoFull} alt="QuickGPT" className="h-10" />
@@ -42,6 +44,6 @@ const header = () => {
   )
 }
 
-export default header
+export default Header
 
 
