@@ -26,7 +26,11 @@ connectDB().catch(err => console.error("DB connection error:", err));
 
 // ---------------- Routes ----------------
 app.get("/", (req, res) => {
-  res.json({ message: "API is working", status: "ok" });
+  res.status(200).json({ message: "API is working", status: "ok", timestamp: new Date().toISOString() });
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "healthy" });
 });
 
 app.use("/api/auth", authRoutes);
