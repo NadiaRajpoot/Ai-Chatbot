@@ -1,11 +1,12 @@
-const express = require('express');
+// Load environment variables FIRST before any other imports
 const dotenv = require('dotenv');
+dotenv.config();
+
+const express = require('express');
 const cors = require('cors');
 const connectDB = require("./Config/Database");
 const authRoutes = require("./routes/auth");
 const generateRoutes = require("./routes/generate");
-
-dotenv.config();
 
 const app = express();
 
@@ -35,9 +36,19 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Connect to DB before exporting (for serverless)
-connectDB().catch(err => {
-    console.error("DB connection failed:", err);
-});
+// Connect to database and start server
+connectDB()
+    .then(() => {
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`✓ Server is running on port ${PORT}`);
+            console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
+        });
+    })
+    .catch((error) => {
+        console.error("✗ Failed to start server:", error);
+        process.exit(1);
+    });
 
+// Export for serverless
 module.exports = app;
