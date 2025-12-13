@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 // CORS: allow frontend origin and credentials (cookies)
-const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+const allowedOrigin = process.env.CLIENT_ORIGIN ;
 app.use(cors({
     origin: allowedOrigin,
     credentials: true,
