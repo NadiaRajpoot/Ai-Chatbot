@@ -1,10 +1,10 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "src/Server.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node src/Server.js",
-    "dev": "nodemon src/Server.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
   "keywords": [],
   "author": "",
