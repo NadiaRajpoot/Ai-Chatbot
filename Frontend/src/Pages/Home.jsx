@@ -43,7 +43,7 @@ function ChatBubble({ msg }) {
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div className={`flex gap-3 max-w-md ${isUser ? "flex-row-reverse" : "flex-row"}`}>
         <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+          className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
             isUser ? "bg-purple-600" : "bg-gray-300"
           }`}
         >
@@ -85,7 +85,7 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const API_BASE = import.meta.env.VITE_API_URL ;
   const messagesEndRef = useRef(null);
 
   // Auto-scroll to latest message
