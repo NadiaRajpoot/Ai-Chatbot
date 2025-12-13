@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ---------------- Start Server (Local only) ----------------
+// Start server if run directly (local development)
 if (require.main === module) {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
