@@ -21,24 +21,14 @@ app.use(
   })
 );
 
-// ---------------- DB (SERVERLESS SAFE) ----------------
-let dbConnected = false;
-
-app.use(async (req, res, next) => {
-  if (!dbConnected) {
-    try {
-      await connectDB();
-      dbConnected = true;
-      console.log("✓ Database connected");
-    } catch (error) {
-      console.error("✗ Database connection failed:", error);
-      return res.status(503).json({ message: "Database unavailable" });
-    }
-  }
-  next();
-});
+// ---------------- DB (SERVERLESS - Connect once) ----------------
+connectDB().catch(err => console.error("DB connection error:", err));
 
 // ---------------- Routes ----------------
+app.get("/", (req, res) => {
+  res.json({ message: "API is working", status: "ok" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/generate", generateRoutes);
 
