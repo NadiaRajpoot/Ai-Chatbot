@@ -55,8 +55,13 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`✓ Server is running on port ${PORT}`);
   });
-} else {
-  // Export for Vercel serverless (only when imported, not when run directly)
+}
+
+// Export for Vercel serverless
+try {
   const serverless = require("serverless-http");
   module.exports = serverless(app);
+} catch (e) {
+  // If serverless-http not found (local dev), just export app
+  module.exports = app;
 }
