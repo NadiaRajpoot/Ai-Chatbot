@@ -4,7 +4,6 @@ dotenv.config();
 
 const express = require("express");
 const cors = require("cors");
-const serverless = require("serverless-http");
 
 const connectDB = require("../src/Config/Database");
 const authRoutes = require("../src/routes/auth");
@@ -50,5 +49,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Export for Vercel serverless
-module.exports = serverless(app);
+// Start server if run directly (local development)
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`✓ Server is running on port ${PORT}`);
+  });
+} else {
+  // Export for Vercel serverless (only when imported, not when run directly)
+  const serverless = require("serverless-http");
+  module.exports = serverless(app);
+}
