@@ -14,9 +14,18 @@ const app = express();
 // ---------------- Middleware ----------------
 app.use(express.json());
 
+// Support comma-separated list in CLIENT_ORIGIN for multiple frontends (e.g., prod + localhost)
+const allowedOrigins = process.env.CLIENT_ORIGIN
+  ? process.env.CLIENT_ORIGIN.split(",").map(o => o.trim()).filter(Boolean)
+  : [];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true); // allow same-origin / non-browser clients
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
