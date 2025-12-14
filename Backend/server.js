@@ -5,10 +5,9 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 
-const connectDB = require("./Config/Database");
-const authRoutes = require("./routes/auth");
-const generateRoutes = require("./routes/generate");
-
+require('./src/Config/Database')
+require('./src/models/User')
+require('./src/routes/auth')
 const app = express();
 
 // ---------------- Middleware ----------------
