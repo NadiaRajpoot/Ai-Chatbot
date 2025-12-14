@@ -2,7 +2,7 @@
 import React from 'react'
 import logoFull from "../assets/logo_full_dark.svg";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL || "https://ai-chatbot-5-zjoa.onrender.com/";
 
 const handleLogout = () => {
   fetch(`${API_BASE}/api/auth/logout`, {
