@@ -16,11 +16,10 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://ai-chatbot-5-zjoa.onrender.com",
+    origin: "*",
     credentials: true,
   })
 );
-
 // ---------------- DB (SERVERLESS - Connect once) ----------------
 connectDB().catch((err) =>
   console.error("DB connection error:", err)
