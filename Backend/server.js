@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: "https://ai-chatbot-5-zjoa.onrender.com",
     credentials: true,
   })
 );
