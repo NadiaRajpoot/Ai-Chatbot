@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 
 // Prefer env base URL, otherwise fall back to localhost
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL || "https://ai-chatbot-5-zjoa.onrender.com";
 // Removed remember-me functionality
 
 export default function Signup() {
