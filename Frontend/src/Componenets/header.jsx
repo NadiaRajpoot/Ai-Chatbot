@@ -18,7 +18,7 @@ const handleLogout = () => {
     } catch (_) {
       // ignore storage errors
     }
-    window.location.href = "/login";
+    window.location.href = "/";
   });
 };
 
