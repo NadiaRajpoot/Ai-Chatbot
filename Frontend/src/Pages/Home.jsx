@@ -85,7 +85,7 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
-  const API_BASE = import.meta.env.VITE_API_URL  || "https://ai-chatbot-7-kp56.onrender.com/";
+  const API_BASE = import.meta.env.VITE_API_URL  || "https://ai-chatbot-7-kp56.onrender.com";
   const messagesEndRef = useRef(null);
 
   // Auto-scroll to latest message
