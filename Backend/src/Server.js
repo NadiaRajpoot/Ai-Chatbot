@@ -22,11 +22,17 @@ app.use(
 );
 
 // ---------------- DB (SERVERLESS - Connect once) ----------------
-connectDB().catch(err => console.error("DB connection error:", err));
+connectDB().catch((err) =>
+  console.error("DB connection error:", err)
+);
 
 // ---------------- Routes ----------------
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "API is working", status: "ok", timestamp: new Date().toISOString() });
+  res.status(200).json({
+    message: "API is working",
+    status: "ok",
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.get("/health", (req, res) => {
@@ -49,7 +55,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server if run directly (local development)
+// ---------------- Start Server (Local Only) ----------------
 if (require.main === module) {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
