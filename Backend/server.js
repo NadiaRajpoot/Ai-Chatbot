@@ -5,9 +5,10 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 
-require('./src/Config/Database')
-require('./src/models/User')
-require('./src/routes/auth')
+const connectDB = require("./src/Config/Database");
+const authRoutes = require("./src/routes/auth");
+const generateRoutes = require("./src/routes/generate");
+
 const app = express();
 
 // ---------------- Middleware ----------------
@@ -15,10 +16,11 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.CLIENT_ORIGIN,
     credentials: true,
   })
 );
+
 // ---------------- DB (SERVERLESS - Connect once) ----------------
 connectDB().catch((err) =>
   console.error("DB connection error:", err)
